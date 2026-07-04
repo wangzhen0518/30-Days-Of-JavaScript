@@ -1,39 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <style>
+      body {
+        background-image: url("./images/galaxy.gif");
+        display: flex;
+				flex-direction: column;
+        justify-content: center;
+				align-items: center;
+      }
 
-<head>
-	<title>Solar System: Document Object Model:30 Days Of JavaScript</title>
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
-</head>
+      header {
+        color: white;
+        text-align: center;
+        text-shadow: 3px 3px 4px grey;
+      }
 
-<body>
-	<header>
-		<h1>Calculate a weight of an object on a planet</h1>
+      #mass {
+        height: 24px;
+      }
+      #mass::placeholder {
+        color: rgba(128, 128, 128, 0.8);
+      }
 
-		<input type="text" id="mass" placeholder="Mass in Kilogram" />
-		<select>
-			<option value='none'>--select planet-- </option>
-		</select>
-		<button>Calculate weight</button>
+      #planet {
+        height: 30px;
+        color: grey;
+      }
 
-	</header>
-	<main>
-		<div class="flex-container">
-			<div class="flex-item image">
-				<img src='./images/earth.png' class="planet-image" />
-			</div>
-			<div class="flex-item description"></div>
+      #calBtn {
+        height: 32px;
+        background-color: rgba(255, 255, 255, 0.4);
+        color: white;
+        border-width: 0;
+        border-radius: 6px;
+      }
 
-		</div>
+      .flex-container {
+        margin: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        min-height: 120px;
+        max-width: 1260px;
+        min-width: 1020px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+      }
 
+      #flex-item-image {
+        display: flex;
+        flex: auto;
+        align-items: center;
+      }
 
-	</main>
+      #flex-item-desc {
+        display: none;
+        flex: auto;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        max-width: 400px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: larger;
+      }
+      #flex-item-desc-msg {
+        margin-bottom: 10px;
+      }
+      #flex-item-desc-gravity {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.2);
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <title>Solar System: Document Object Model:30 Days Of JavaScript</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet" />
+  </head>
 
+  <body>
+    <header>
+      <h1>Calculate a weight of an object on a planet</h1>
 
+      <input type="text" id="mass" placeholder="Mass in Kilogram" />
+      <select id="planet">
+        <option value="none">--select planet--</option>
+      </select>
+      <button id="calBtn">Calculate weight</button>
+    </header>
 
+    <main>
+      <div class="flex-container">
+        <div>
+          <img id="flex-item-image" src="./images/earth.png" />
+        </div>
+        <div id="flex-item-desc">
+          <div id="flex-item-desc-msg"></div>
+          <div id="flex-item-desc-gravity"></div>
+        </div>
+      </div>
+    </main>
 
-
-	<script src="./scripts/main.js"></script>
-</body>
-
+    <script type="module" src="./scripts/main.ts"></script>
+  </body>
 </html>
