@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  background-color: #fefee3;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+header {
+  background-image: url("../images/globe-2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/*TODO: 确认这里是不是 header h1, header h2 的含义*/
+header h1,
+header h2 {
+  color: white;
+}
+
+header h1 {
+  display: flex;
+  width: 1000px;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 5px;
+  font-size: 60px;
+}
+
+header h2 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+#searchResMsg {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.searchResCtx {
+  color: #c85854;
+  display: inline;
+}
+
+.searchResNum {
+  color: #87d553;
+  display: inline;
+}
+
+#btnSet {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.btn {
+  --primary-color: #7952cf;
+  --active-color: #581cb8;
+  background-color: var(--primary-color);
+  color: white;
+  border-width: 0;
+  border-radius: 3px;
+  height: 50px;
+  padding: 15px;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--active-color);
+  font-weight: bold;
+}
+
+.is-active {
+  background-color: var(--active-color);
+}
+
+#sortBtn {
+  height: 50px;
+  width: 50px;
+  padding: 10px;
+}
+
+#searchSet {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+  margin-bottom: 120px;
+}
+
+#searchCtx {
+  height: 40px;
+  width: 500px;
+  border-radius: 30px;
+  border-width: 0;
+  padding: 0;
+  text-align: left;
+  text-indent: 20px;
+  font-size: 18px;
+}
+
+#searchCtx::placeholder {
+  text-align: center;
+}
+
+#searchBtn {
+  height: 30px;
+  width: 30px;
+  background: none;
+  border-width: 0;
+  padding: 0;
+}
+
+#countries {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.country {
+  background-image: url("../images/map_image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 100px;
+  /* color: white; */
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
