@@ -1,6 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --header-overlay: rgba(44, 29, 20, 0.35);
+  --header-overlay-strong: rgba(30, 18, 12, 0.48);
+  --surface: #fcf8d8;
+  --card-text: #14313f;
+  --btn-primary-color: #7952cf;
+  --btn-active-color: #581cb8;
+  --country-grid-size: 220px;
+}
+
 body {
   margin: 0;
-  background-color: #fefee3;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.5) 0 1px, transparent 1px 100%),
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.35) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, #fdf6da 0%, #fbf5d2 100%);
+  background-size:
+    20px 20px,
+    24px 24px,
+    auto;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 input,
@@ -16,13 +39,18 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  place-items: center;
   margin: 0;
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--header-overlay), var(--header-overlay-strong)),
+    url("../images/globe-2.jpg") center/cover no-repeat;
+  text-align: center;
 }
 
-/*TODO: 确认这里是不是 header h1, header h2 的含义*/
 header h1,
 header h2 {
-  color: white;
+  color: #fff;
 }
 
 header h1 {
@@ -31,28 +59,39 @@ header h1 {
   justify-content: center;
   margin-top: 50px;
   margin-bottom: 5px;
-  font-size: 60px;
+  font-size: 56px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
 }
 
 header h2 {
   margin-top: 0px;
   margin-bottom: 5px;
+  font-size: clamp(1.15rem, 2vw, 1.75rem);
+  line-height: 1.2;
+  font-weight: 700;
 }
 
 #searchResMsg {
+  min-height: 1.5em;
   margin-top: 5px;
   margin-bottom: 15px;
-  color: white;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
 }
 
 .searchResCtx {
   color: #c85854;
   display: inline;
+  font-weight: 700;
 }
 
 .searchResNum {
   color: #87d553;
   display: inline;
+  font-weight: 700;
 }
 
 #btnSet {
@@ -65,30 +104,47 @@ header h2 {
 }
 
 .btn {
-  --primary-color: #7952cf;
-  --active-color: #581cb8;
-  background-color: var(--primary-color);
+  background-color: var(--btn-primary-color);
   color: white;
   border-width: 0;
   border-radius: 3px;
   height: 50px;
   padding: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.92rem;
+  font-weight: 700;
+  box-shadow: 0 14px 30px rgba(80, 34, 139, 0.25);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .btn:hover,
-.btn:focus {
-  background-color: var(--active-color);
-  font-weight: bold;
+.btn:focus-visible {
+  background-color: var(--btn-active-color);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 34px rgba(80, 34, 139, 0.3);
 }
 
 .is-active {
-  background-color: var(--active-color);
+  background-color: var(--btn-active-color);
 }
 
 #sortBtn {
   height: 50px;
   width: 50px;
   padding: 10px;
+}
+
+#sortBtn img {
+  width: 24px;
+  height: 24px;
 }
 
 #searchSet {
@@ -98,22 +154,24 @@ header h2 {
   align-items: center;
   gap: 5px;
   margin-top: 20px;
-  margin-bottom: 120px;
+  margin-bottom: 60px;
 }
 
 #searchCtx {
   height: 40px;
-  width: 500px;
+  width: min(100%, 500px);
   border-radius: 30px;
   border-width: 0;
   padding: 0;
   text-align: left;
   text-indent: 20px;
   font-size: 18px;
+  box-shadow: 0 20px 40px rgba(6, 16, 33, 0.22);
 }
 
 #searchCtx::placeholder {
   text-align: center;
+  color: #8e8e98;
 }
 
 #searchBtn {
@@ -122,24 +180,88 @@ header h2 {
   background: none;
   border-width: 0;
   padding: 0;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+main {
+  padding: 54px 28px 88px;
 }
 
 #countries {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var(--country-grid-size));
   justify-content: center;
   align-items: center;
+  gap: 30px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .country {
-  background-image: url("../images/map_image.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100px;
-  width: 100px;
-  /* color: white; */
+  height: var(--country-grid-size);
+  width: var(--country-grid-size);
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(10, 18, 26, 0.22)),
+    url("../images/map_image.jpg") center/cover no-repeat;
+  color: #fff;
   display: flex;
-  text-align: center;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 26px rgba(23, 40, 54, 0.16);
+}
+
+@media (max-width: 720px) {
+  header {
+    min-height: 62vh;
+    padding-inline: 16px;
+  }
+
+  header h1 {
+    letter-spacing: 0.1em;
+  }
+
+  #btnSet {
+    gap: 6px;
+  }
+
+  .btn {
+    min-height: 52px;
+    padding-inline: 14px;
+    font-size: 0.82rem;
+  }
+
+  #searchSet {
+    width: 100%;
+  }
+
+  #searchCtx {
+    width: auto;
+    height: 50px;
+    padding-inline: 20px;
+    font-size: 1rem;
+  }
+
+  #searchBtn {
+    width: 44px;
+    height: 44px;
+  }
+
+  #countries {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 18px;
+  }
+
+  .country {
+    min-height: 150px;
+    font-size: 1.1rem;
+  }
 }

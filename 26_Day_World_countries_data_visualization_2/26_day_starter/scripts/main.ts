@@ -51,7 +51,7 @@ function updateCountriesSequence(countries: string[], countriesList: HTMLUListEl
 function showCountries(countriesToShow: string[], countriesList: HTMLUListElement) {
   let html = "";
   for (const country of countriesToShow) {
-    html += `<li class="country">${country.toUpperCase()}</li>`;
+    html += `<li class="country">${country}</li>`;
   }
   countriesList.innerHTML = html;
 }
