@@ -3,14 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./css/style.css" />
-    <title>Wang Zhen</title>
+    <title>Asabeneh Yetayeh</title>
   </head>
 
   <body>
-    <h1>Wang Zhen</h1>
-    <h2>Destructuring and Spread</h2>
-		<p>I am Wang Zhen.</p>
+    <main class="page">
+      <header class="hero">
+        <h1>Asabeneh Yetayeh</h1>
+      </header>
+
+      <section class="intro-panel" aria-label="Instructor">
+        <span class="rotator rotator--icon" aria-hidden="true">
+          <span class="rotator__item" style="--i: 0">📖</span>
+          <span class="rotator__item" style="--i: 1">🔥</span>
+          <span class="rotator__item" style="--i: 2">💻</span>
+          <span class="rotator__item" style="--i: 3">📝</span>
+          <span class="rotator__item" style="--i: 4">🌱</span>
+        </span>
+        <span class="rotator rotator--title" aria-hidden="true">
+          <span class="rotator__item" style="--i: 0">Instructor</span>
+          <span class="rotator__item" style="--i: 1">Motivational Speaker</span>
+          <span class="rotator__item" style="--i: 2">Programmer</span>
+          <span class="rotator__item" style="--i: 3">Content Creator</span>
+          <span class="rotator__item" style="--i: 4">Educator</span>
+        </span>
+      </section>
+
+      <section class="bio">
+        <p>
+          I am Asabeneh Yetayeh. I am instructor, developer, motivator and content creator. I love educating people and creating
+          educational materials. In January 2019, I also created a teaching material
+          <strong>JavaScript For Everyone</strong>. In December 2019, I created <strong>30Days Of Python</strong> challenge and in
+          January 2020 <strong>30 Days Of JavaScript</strong> challenge.
+        </p>
+      </section>
+
+      <section class="projects" aria-label="Projects">
+        <div class="project-tile">JAVASCRIPT FOR EVERYONE</div>
+        <div class="project-tile">30DAYS OF PYTHON</div>
+        <div class="project-tile">30DAYS OF JAVASCRIPT</div>
+      </section>
+
+      <section class="techs" aria-label="Technologies">
+        <p class="techs__label">The technologies I teach</p>
+        <span class="rotator rotator--word" aria-hidden="true">
+          <span class="rotator__item" style="--i: 0; --accent: #f8dc43">JAVASCRIPT</span>
+          <span class="rotator__item" style="--i: 1; --accent: #95b8e8">PYTHON</span>
+          <span class="rotator__item" style="--i: 2; --accent: #86d5f8">REACT</span>
+          <span class="rotator__item" style="--i: 3; --accent: #b9a9ef">REDUX</span>
+          <span class="rotator__item" style="--i: 4; --accent: #8dd19b">MONGODB</span>
+          <span class="rotator__item" style="--i: 5; --accent: #98bb74">PANDAS</span>
+        </span>
+      </section>
+    </main>
 
     <script type="module" src="./scripts/main.ts"></script>
   </body>
