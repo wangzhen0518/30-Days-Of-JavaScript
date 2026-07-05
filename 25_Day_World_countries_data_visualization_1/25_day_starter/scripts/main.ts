@@ -82,6 +82,12 @@ function showTopKLanguages(languageRank: LanguageStatRecord[], totalCountries: n
   );
 }
 
+function setActiveButton(active: HTMLButtonElement, populationButton: HTMLButtonElement, languageButton: HTMLButtonElement) {
+  for (const button of [populationButton, languageButton]) {
+    button.classList.toggle("is-active", button === active);
+  }
+}
+
 const countryRank = sortByPopulation(countries);
 const totalCountries = countryRank.length;
 const totalPopulation = countryRank.reduce((acc, country) => acc + country.population, 0);
@@ -92,22 +98,16 @@ const K = 10;
 const populationButton = document.getElementById("population") as HTMLButtonElement;
 const languageButton = document.getElementById("languages") as HTMLButtonElement;
 
-function setActiveButton(active: HTMLButtonElement) {
-  for (const button of [populationButton, languageButton]) {
-    button.classList.toggle("is-active", button === active);
-  }
-}
-
 populationButton.addEventListener("click", () => {
-  setActiveButton(populationButton);
+  setActiveButton(populationButton, populationButton, languageButton);
   showTopKCountries(countryRank, totalPopulation, K);
 });
 
 languageButton.addEventListener("click", () => {
-  setActiveButton(languageButton);
+  setActiveButton(languageButton, populationButton, languageButton);
   showTopKLanguages(languageRank, totalCountries, K);
 });
 
 initSubtitle(totalCountries);
-setActiveButton(populationButton);
+setActiveButton(languageButton, populationButton, languageButton);
 showTopKCountries(countryRank, totalPopulation, K);

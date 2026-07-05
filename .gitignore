@@ -19,3 +19,4 @@ test.html
 res.js
 
 node_modules/
+.vscode/
