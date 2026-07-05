@@ -28,15 +28,16 @@ function updateSearchResult(
     }
 
     if (searchFn === searchByStart) {
-      searchResMsg.innerHTML = `Countries start with <div class="searchResCtx">${searchCtx}</div> are <div class="searchResNum">${results.length}.</div>`;
+      searchResMsg.innerHTML = `Countries start with <span class="searchResCtx">${searchCtx}</span> are <span class="searchResNum">${results.length}.</span>`;
     } else {
-      searchResMsg.innerHTML = `Countries containing <div class="searchResCtx">${searchCtx}</div> are <div class="searchResNum">${results.length}.</div>`;
+      searchResMsg.innerHTML = `Countries containing <span class="searchResCtx">${searchCtx}</span> are <span class="searchResNum">${results.length}.</span>`;
     }
 
     showCountries(results, countriesList);
     return results;
   } else {
     searchResMsg.innerHTML = "";
+    showCountries(countries, countriesList);
     return countries;
   }
 }
@@ -67,7 +68,7 @@ function init(
 
   const searchFn = searchByStart;
   startWordBtn.classList.add("is-active");
-  searchAnyWordBtn.classList.remove("is-activate");
+  searchAnyWordBtn.classList.remove("is-active");
 
   const isAscend = true;
   sortIcon.src = "./images/ascend.svg";
@@ -89,7 +90,7 @@ const searchAnyWordBtn = document.getElementById("searchAnyWordBtn") as HTMLButt
 const sortBtn = document.getElementById("sortBtn") as HTMLButtonElement;
 const sortIcon = document.getElementById("sortIcon") as HTMLImageElement;
 const searchCtx = document.getElementById("searchCtx") as HTMLInputElement;
-// const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
+const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
 const countriesList = document.getElementById("countries") as HTMLUListElement;
 
 let [searchFn, isAscend, lastResult] = init(countries, subtitle, startWordBtn, searchAnyWordBtn, sortIcon, countriesList);
@@ -101,7 +102,7 @@ document.getElementById("header")?.addEventListener("click", (event) => {
     updateNeeded = true;
     searchFn = searchByStart;
     startWordBtn.classList.add("is-active");
-    searchAnyWordBtn.classList.remove("is-activate");
+    searchAnyWordBtn.classList.remove("is-active");
   } else if (event.target === searchAnyWordBtn) {
     updateNeeded = true;
     searchFn = searchByContain;
@@ -119,6 +120,9 @@ document.getElementById("header")?.addEventListener("click", (event) => {
       countries.reverse();
     }
     lastResult = updateCountriesSequence(lastResult, countriesList);
+  } else if (event.target === searchBtn) {
+    updateNeeded = true;
+    searchCtx.focus();
   }
 
   if (updateNeeded) {
