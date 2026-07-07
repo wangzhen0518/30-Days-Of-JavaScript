@@ -1,17 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>30 Days Of JavaScript Challenge Leaderboard</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-<head>
-	<title>30DaysOfJavaScript:11 Day </title>
-</head>
+  <body>
+    <main class="page">
+      <h1>30 Days Of JavaScript Challenge Leaderboard</h1>
 
-<body>
-	<h1>30DaysOfJavaScript:11 Day</h1>
-	<h2>Destructuring and Spread</h2>
+      <div id="AddInfo">
+        <form id="info">
+          <input type="text" id="inputFirstName" placeholder="First Name" />
+          <input type="text" id="inputLastName" placeholder="Last Name" />
+          <input type="text" id="inputCountry" placeholder="Country" />
+          <input type="text" id="inputPlayerScore" placeholder="Player Score" />
+          <button id="addBtn" type="submit">Add Player</button>
+        </form>
+        <div id="errorInfo"></div>
+      </div>
 
-	<script src="./data/countries_data.js"></script>
-	<script src="./scripts/main.js"></script>
+      <div id="leaderBoard"></div>
+    </main>
 
-</body>
-
+    <script type="module" src="./scripts/main.ts"></script>
+  </body>
 </html>
