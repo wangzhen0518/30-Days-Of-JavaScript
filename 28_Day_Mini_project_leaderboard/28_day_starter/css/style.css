@@ -1,5 +1,251 @@
 :root {
-  --theme-color: #e5c9c5;
-  --grey: #928c97;
-  --light-grey: #c5c1c1;
+  --page-bg: #fff8f6;
+  --panel-bg: #e8cec9;
+  --line: #ebd0ca;
+  --text: #4a4448;
+  --muted: #9c919c;
+  --accent: #ff7a6e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+}
+
+.page {
+  width: min(1000px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 8px 0 32px;
+}
+
+h1 {
+  margin: 0 0 26px;
+  font-size: clamp(2.1rem, 3.1vw, 2.8rem);
+  line-height: 1.15;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+#AddInfo {
+  margin-bottom: 24px;
+}
+
+#info {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) 160px;
+  gap: 10px;
+  align-items: stretch;
+}
+
+#info input,
+#info button {
+  height: 50px;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  font: inherit;
+  outline: none;
+}
+
+#info input {
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  font-size: 1.08rem;
+}
+
+#info input::placeholder {
+  color: #c9bbbb;
+}
+
+#info input:focus {
+  border-color: #d9b3ac;
+  box-shadow: 0 0 0 3px rgba(216, 179, 172, 0.18);
+}
+
+#addBtn {
+  background: var(--panel-bg);
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+#addBtn:hover {
+  filter: brightness(0.98);
+  transform: translateY(-1px);
+}
+
+#errorInfo {
+  min-height: 1.25rem;
+  margin-top: 8px;
+  padding-left: 10px;
+  color: #b06d67;
+  font-size: 0.92rem;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(120px, 200px) 90px auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 78px;
+  padding: 14px 28px 14px 14px;
+  background: var(--panel-bg);
+}
+
+.name {
+  font-size: 1.12rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
+}
+
+.date {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.country {
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 1.08rem;
+  text-align: left;
+}
+
+.score {
+  align-items: center;
+  font-size: 1.12rem;
+  font-weight: 600;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.editBtn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(74, 68, 72, 0.03);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.editBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(74, 68, 72, 0.08);
+}
+
+.editBtn img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.add5Score,
+.reduce5Score {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.delete {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .page {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  #info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #addBtn {
+    grid-column: 1 / -1;
+  }
+
+  .player {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "main buttons"
+      "country score";
+    padding-right: 20px;
+  }
+
+  .player > .col:first-child {
+    grid-area: main;
+  }
+
+  .player > .country {
+    grid-area: country;
+    text-align: left;
+  }
+
+  .player > .score {
+    grid-area: score;
+    text-align: left;
+  }
+
+  .player > .buttons {
+    grid-area: buttons;
+  }
+}
+
+@media (max-width: 560px) {
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  #info {
+    grid-template-columns: 1fr;
+  }
+
+  .player {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .player > .country,
+  .player > .score,
+  .player > .buttons {
+    justify-content: flex-start;
+    text-align: left;
+  }
 }
