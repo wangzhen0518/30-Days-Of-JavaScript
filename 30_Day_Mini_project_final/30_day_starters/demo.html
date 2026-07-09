@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>排序按钮 + 箭头指示器</title>
+    <style>
+      /* ==================== 全局重置 & 基础 ==================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", "PingFang SC", Roboto, system-ui, sans-serif;
+        background: #f8fafc;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow:
+          0 10px 40px rgba(0, 0, 0, 0.06),
+          0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 32px 40px 40px;
+        max-width: 820px;
+        width: 100%;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        box-shadow: 0 16px 56px rgba(0, 0, 0, 0.08);
+      }
+
+      /* ==================== 标题 ==================== */
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0b1a33;
+        letter-spacing: -0.01em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .card-title svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: #4a7cf7;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .sort-status {
+        font-size: 13px;
+        color: #6b7a8f;
+        background: #f1f4f9;
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+
+      .sort-status strong {
+        color: #1a2b4a;
+        font-weight: 600;
+      }
+
+      /* ==================== 排序按钮组 ==================== */
+      .sort-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eef2f6;
+      }
+
+      /* ---------- 每个排序按钮 ---------- */
+      .sort-btn {
+        /* 基础样式 */
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 18px;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: inherit;
+        border: 1.5px solid #dce2ec;
+        border-radius: 30px;
+        background: #ffffff;
+        color: #5a6b82;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        user-select: none;
+        position: relative;
+        outline: none;
+      }
+
+      /* 悬停效果（非激活） */
+      .sort-btn:not(.active):hover {
+        border-color: #b0c0d4;
+        color: #1a2b4a;
+        background: #f7f9fc;
+        transform: translateY(-1px);
+      }
+
+      /* 激活状态 */
+      .sort-btn.active {
+        border-color: #4a7cf7;
+        background: #4a7cf7;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(74, 124, 247, 0.28);
+        transform: translateY(0);
+        padding-right: 16px;
+        /* 为箭头留出空间，但 arrow 用 margin 控制 */
+      }
+
+      /* 激活状态悬停：轻微加深 */
+      .sort-btn.active:hover {
+        background: #3d6de0;
+        border-color: #3d6de0;
+        box-shadow: 0 6px 20px rgba(74, 124, 247, 0.34);
+        transform: translateY(-1px);
+      }
+
+      /* ---------- 箭头（伪元素） ---------- */
+      .sort-btn::after {
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 4px;
+        opacity: 0;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+        /* 默认用 border 画三角形，但这里我们使用 Unicode 字符更简单 */
+        /* 改用 content 直接插入字符，通过 class 控制 */
+      }
+
+      /* 激活时显示箭头，使用 Unicode ↑ / ↓ */
+      .sort-btn.active::after {
+        content: "↑";
+        opacity: 1;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1;
+        color: #ffffff;
+        margin-left: 6px;
+        transform: translateY(0);
+      }
+
+      /* 降序时箭头朝下 */
+      .sort-btn.active.desc::after {
+        content: "↓";
+      }
+
+      /* 为了更平滑的切换，给箭头增加微小的过渡 */
+      .sort-btn.active::after {
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      /* ---------- 点击波纹（可选，提升交互感） ---------- */
+      .sort-btn:active:not(.active) {
+        transform: scale(0.96);
+        transition-duration: 0.08s;
+      }
+
+      .sort-btn.active:active {
+        transform: scale(0.96);
+        transition-duration: 0.08s;
+      }
+
+      /* ==================== 表格 ==================== */
+      .table-wrapper {
+        border-radius: 12px;
+        border: 1px solid #eef2f6;
+        overflow: hidden;
+        background: #ffffff;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      thead {
+        background: #f7f9fc;
+        border-bottom: 1px solid #eef2f6;
+      }
+
+      thead th {
+        text-align: left;
+        padding: 14px 20px;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #6b7a8f;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #f0f3f8;
+        transition: background 0.15s ease;
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      tbody tr:hover {
+        background: #f7faff;
+      }
+
+      tbody td {
+        padding: 14px 20px;
+        color: #1a2b4a;
+      }
+
+      /* 人口列右对齐，更易读 */
+      tbody td:last-child {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* 空状态 */
+      .empty-row td {
+        text-align: center;
+        color: #9aabbf;
+        padding: 40px 20px;
+        font-style: italic;
+      }
+
+      /* ==================== 响应式 ==================== */
+      @media (max-width: 640px) {
+        .card {
+          padding: 20px 16px 28px;
+        }
+
+        .card-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .sort-group {
+          gap: 6px;
+          padding-bottom: 16px;
+        }
+
+        .sort-btn {
+          font-size: 13px;
+          padding: 6px 14px;
+        }
+
+        .sort-btn.active {
+          padding-right: 12px;
+        }
+
+        thead th,
+        tbody td {
+          padding: 10px 14px;
+          font-size: 13px;
+        }
+
+        tbody td:last-child {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .sort-btn {
+          font-size: 12px;
+          padding: 5px 10px;
+          border-radius: 20px;
+        }
+
+        .sort-btn.active::after {
+          font-size: 13px;
+          margin-left: 4px;
+        }
+
+        thead th,
+        tbody td {
+          padding: 8px 10px;
+          font-size: 12px;
+        }
+      }
+
+      /* ==================== 工具类：隐藏辅助 ==================== */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" role="main" aria-label="排序控件示例">
+      <!-- 头部 -->
+      <div class="card-header">
+        <div class="card-title">
+          <!-- 简单图标 -->
+          <svg viewBox="0 0 24 24">
+            <path d="M3 7h18M3 12h14M3 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          排序演示
+        </div>
+        <span class="sort-status" id="sortStatus">
+          按 <strong id="statusLabel">名称</strong>
+          <span id="statusOrder">↑ 升序</span>
+        </span>
+      </div>
+
+      <!-- ======== 三个排序按钮 ======== -->
+      <div class="sort-group" role="group" aria-label="排序依据">
+        <!-- 按钮 1：名称 -->
+        <button class="sort-btn active" data-sort="name" data-order="asc" aria-pressed="true">名称</button>
+        <!-- 按钮 2：首都 -->
+        <button class="sort-btn" data-sort="capital" data-order="asc" aria-pressed="false">首都</button>
+        <!-- 按钮 3：人口 -->
+        <button class="sort-btn" data-sort="population" data-order="asc" aria-pressed="false">人口</button>
+      </div>
+
+      <!-- ======== 数据表格 ======== -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>首都</th>
+              <th>人口</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- 由 JavaScript 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // ==================== 数据 ====================
+        const data = [
+          { name: "中国", capital: "北京", population: 1412600000 },
+          { name: "印度", capital: "新德里", population: 1417170000 },
+          { name: "美国", capital: "华盛顿", population: 334998000 },
+          { name: "印度尼西亚", capital: "雅加达", population: 279118000 },
+          { name: "巴基斯坦", capital: "伊斯兰堡", population: 231402000 },
+          { name: "巴西", capital: "巴西利亚", population: 216422000 },
+          { name: "尼日利亚", capital: "阿布贾", population: 218541000 },
+          { name: "孟加拉国", capital: "达卡", population: 172954000 },
+          { name: "俄罗斯", capital: "莫斯科", population: 143447000 },
+          { name: "墨西哥", capital: "墨西哥城", population: 131000000 },
+        ];
+
+        // ==================== 状态 ====================
+        let currentSort = "name"; // 'name' | 'capital' | 'population'
+        let currentOrder = "asc"; // 'asc' | 'desc'
+
+        // ==================== DOM 引用 ====================
+        const buttons = document.querySelectorAll(".sort-btn");
+        const tbody = document.getElementById("tableBody");
+        const statusLabel = document.getElementById("statusLabel");
+        const statusOrder = document.getElementById("statusOrder");
+
+        // 排序字段对应的中文显示名
+        const fieldLabels = {
+          name: "名称",
+          capital: "首都",
+          population: "人口",
+        };
+
+        const orderLabels = {
+          asc: "↑ 升序",
+          desc: "↓ 降序",
+        };
+
+        // ==================== 核心函数 ====================
+
+        /** 根据当前排序状态渲染表格 */
+        function renderTable() {
+          // 1. 复制数据并排序
+          const sorted = [...data].sort((a, b) => {
+            let valA = a[currentSort];
+            let valB = b[currentSort];
+
+            // 人口是数字，直接比较；字符串用 localeCompare
+            if (currentSort === "population") {
+              return currentOrder === "asc" ? valA - valB : valB - valA;
+            } else {
+              const cmp = valA.localeCompare(valB, "zh");
+              return currentOrder === "asc" ? cmp : -cmp;
+            }
+          });
+
+          // 2. 生成表格行
+          tbody.innerHTML = sorted
+            .map(
+              (item) => `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.capital}</td>
+                            <td>${item.population.toLocaleString()}</td>
+                        </tr>
+                    `,
+            )
+            .join("");
+
+          // 3. 更新状态显示
+          statusLabel.textContent = fieldLabels[currentSort];
+          statusOrder.textContent = orderLabels[currentOrder];
+        }
+
+        /** 更新按钮的激活状态和箭头方向 */
+        function updateButtons() {
+          buttons.forEach((btn) => {
+            const sortKey = btn.dataset.sort;
+            const isActive = sortKey === currentSort;
+
+            // 切换 active class
+            btn.classList.toggle("active", isActive);
+            // 切换 desc class（仅当激活且降序）
+            btn.classList.toggle("desc", isActive && currentOrder === "desc");
+
+            // 更新 aria-pressed
+            btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+
+            // 更新 data-order（存储当前排序方向，用于切换）
+            if (isActive) {
+              btn.dataset.order = currentOrder;
+            } else {
+              // 非激活按钮默认升序（点击时切换到这个排序）
+              btn.dataset.order = "asc";
+              btn.classList.remove("desc");
+            }
+          });
+        }
+
+        /** 切换排序：如果点击的是当前激活的按钮，切换升降序；否则切换排序依据 */
+        function setSort(sortKey) {
+          if (sortKey === currentSort) {
+            // 切换升降序
+            currentOrder = currentOrder === "asc" ? "desc" : "asc";
+          } else {
+            // 切换到新的排序依据，默认升序
+            currentSort = sortKey;
+            currentOrder = "asc";
+          }
+
+          // 更新 UI
+          updateButtons();
+          renderTable();
+        }
+
+        // ==================== 事件绑定 ====================
+
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", function (e) {
+            const sortKey = this.dataset.sort;
+            setSort(sortKey);
+
+            // 轻微的触感反馈：按钮点击后短暂缩放（由 CSS 处理）
+          });
+
+          // 键盘支持：Enter 和 Space 已经由 button 原生支持
+        });
+
+        // ==================== 初始化 ====================
+
+        function init() {
+          // 确保初始状态与 data-* 属性一致
+          // 默认激活 name，升序
+          currentSort = "name";
+          currentOrder = "asc";
+          updateButtons();
+          renderTable();
+        }
+
+        init();
+
+        // 暴露给控制台方便调试（可选）
+        window.__sortDemo = { data, setSort, currentSort, currentOrder };
+      })();
+    </script>
+  </body>
+</html>

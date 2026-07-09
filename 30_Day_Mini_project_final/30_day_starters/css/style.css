@@ -1,0 +1,75 @@
+:root {
+  --theme-color: #f2a93b;
+}
+
+img {
+  height: 100%;
+  /* width: 100%; */
+}
+
+#search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#search-button {
+  height: 30px;
+}
+
+.button {
+  text-transform: uppercase;
+}
+
+#countries-display-icons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.countries-sort-button {
+  display: inline-grid;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.countries-sort-type {
+  grid-area: 1 / 1;
+}
+
+.countries-sort-sequence {
+  display: none;
+  grid-area: 1 / 2;
+  height: 20px;
+}
+
+.countries-sort-sequence.is-active {
+  /* TODO icon 出现后，button 中的文字是否不再处于 button 的中央，这个问题如何解决 */
+  display: inline;
+}
+
+#jump-stat-icon {
+  height: 20px;
+}
+
+.country-flag {
+  height: 30px;
+}
+
+.stat-item {
+  display: grid;
+  grid-template-columns: minmax(120px, 195px) minmax(50px, 1fr) minmax(40px, 110px);
+  align-items: center;
+}
+
+/* 为什么 bar 不显示 */
+.stat-item-ratio {
+  height: 38px;
+  color: var(--theme-color);
+}
+
+#back-to-top {
+  height: 30px;
+}

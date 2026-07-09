@@ -1,16 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>World Countries Data</title>
+  </head>
 
-<head>
-    <title>30DaysOfJavaScript:30 </title>
-</head>
+  <body>
+    <main class="page">
+      <header id="countries">
+        <h1>World Countries Data</h1>
+        <p id="subtitle">Currently, we have 0 countries</p>
+      </header>
 
-<body>
-   
+      <div id="search-bar">
+        <form id="search-form">
+          <input type="text" id="search-input" placeholder="Search countries by name, capital and languages" />
+          <button type="submit" id="search-button">
+            <img src="./images/search.svg" alt="search" />
+          </button>
+        </form>
+      </div>
 
-    <script src="./data/countries_data.js"></script>
-    <script src="./scripts/main.js"></script>
+      <div id="countries-part">
+        <div id="countries-display-icons">
+          <div id="countries-sort-buttons">
+            <button id="countries-sort-button-name" class="button countries-sort-button">
+              <span class="countries-sort-type">Name</span>
+              <span class="countries-sort-sequence ascend"><img src="./images/upward.svg" alt="ascend" /></span>
+              <span class="countries-sort-sequence descend"><img src="./images/downward.svg" alt="descend" /></span>
+            </button>
 
-</body>
+            <button id="countries-sort-button-capital" class="button countries-sort-button">
+              <span class="countries-sort-type">Capital</span>
+              <span class="countries-sort-sequence ascend"><img src="./images/upward.svg" alt="ascend" /></span>
+              <span class="countries-sort-sequence descend"><img src="./images/downward.svg" alt="descend" /></span>
+            </button>
 
+            <button id="countries-sort-button-population" class="button countries-sort-button">
+              <span class="countries-sort-type">Population</span>
+              <span class="countries-sort-sequence ascend"><img src="./images/upward.svg" alt="ascend" /></span>
+              <span class="countries-sort-sequence descend"><img src="./images/downward.svg" alt="descend" /></span>
+            </button>
+          </div>
+          <button id="jump-stat-icon"><img src="./images/statistics.svg" alt="statistics" /></button>
+        </div>
+
+        <div id="countries-display">
+          <div class="country-card">
+            <img class="country-flag" src="" alt="flag" />
+            <div class="coutry-name"></div>
+            <div class="coutry-capital"></div>
+            <div class="coutry-languages"></div>
+            <div class="coutry-population"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="stat-part">
+        <div id="stat-type-buttons">
+          <button id="stat-type-population" class="button stat-type-button">Population</button>
+          <button id="stat-type-languages" class="button stat-type-button">Languages</button>
+        </div>
+
+        <div id="stat-msg">0 Most populated countries in the world</div>
+
+        <div id="stat-info">
+          <div class="stat-item">
+            <span class="stat-item-name"></span>
+            <span class="stat-item-ratio"></span>
+            <span class="stat-item-number"></span>
+          </div>
+        </div>
+      </div>
+
+      <button id="back-to-top"><img src="./images/toTop.svg" alt="back to top" /></button>
+    </main>
+
+    <script type="module" src="./scripts/main.ts"></script>
+  </body>
 </html>
